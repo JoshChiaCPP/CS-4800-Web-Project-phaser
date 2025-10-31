@@ -2,10 +2,11 @@ import Phaser from "phaser";
 import { Client, Room } from "colyseus.js"
 import { Player, MyRoomState } from "../../../../server/src/rooms/schema/MyRoomState";
 export let room!: Room;
+export let playerEntities: {[sessionId: string]: any} = {};
 export class BootScene extends Phaser.Scene {
   //colyseus connection
   client = new Client("ws://localhost:2567");
-  playerEntities: {[sessionId: string]: any} = {};
+  //playerEntities: {[sessionId: string]: any} = {};
 
 
 
@@ -32,9 +33,25 @@ export class BootScene extends Phaser.Scene {
     //colyseus room connection
     // console.log("Joining room...");
 
-    try { //causing errors with updateBar function
-      room = await this.client.joinOrCreate("my_room");
+    try {
+      room = await this.client.joinOrCreate("my_room")
       console.log("Joined successfully!");
+      //room.state.players
+      
+      // room.state.players.onAdd((player: Player, sessionId: string) => {
+      // if (room.sessionId === sessionId) {
+      //   console.log("my session id: ", sessionId);
+      // } else {
+      //   console.log("Someone else joined, id: ", sessionId, "player data: ", player);
+      //   //add model for them
+      //   //this.fish2 = this.add.image(width * 0.3, height * 0.55, "clownfish").setScale(3).setTint(0x00ff00);
+      //   }
+      // })
+      // this.client.joinOrCreate("my_room").then((player: Player, sessionId: string) => {
+      //   console.log("Joined successfully!");
+      //   room.state.players.onAdd = (player, )
+      // });
+      
     } catch (e) {
       console.error(e);
     } 
@@ -45,6 +62,8 @@ export class BootScene extends Phaser.Scene {
     //this.scene.start("main");
     this.scene.start("rps"); //add a button or something later to get to minigame instead of skipping main scene
   }
+
+  
 
   
 }

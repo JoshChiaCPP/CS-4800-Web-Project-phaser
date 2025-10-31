@@ -229,10 +229,8 @@ export default class minigameRPS extends Phaser.Scene {
 			return
 		}
         if (this.cursors.shift?.isDown){
-			this.scene.restart()
-            this.initialTime = 10
-            this.canClick = true;
-            this.selectedCard = "None"
+            console.log("leaving rps scene");
+            room.leave();
 		}
         if (this.cursors.space?.isDown){
             //console.log('pressed space')
@@ -244,6 +242,7 @@ export default class minigameRPS extends Phaser.Scene {
             // room.send("hi", {x: 10, y: 5});
             // console.log('did it work?')
         }
+        
 
     }
 }

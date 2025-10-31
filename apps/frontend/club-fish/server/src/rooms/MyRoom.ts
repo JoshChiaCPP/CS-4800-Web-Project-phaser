@@ -1,13 +1,15 @@
 import { Room, Client } from "@colyseus/core";
 import { MyRoomState, Player } from "./schema/MyRoomState";
+//import { playerEntities } from "../../../src/components/phaser/scenes/BootScene";
 //import { Schema, type} from "@colyseus/schema";
 
 
 export class MyRoom extends Room<MyRoomState> {
-  maxClients = 2;
+  //maxClients = 2;
   state = new MyRoomState();
 
   onCreate (options: any) {
+    this.maxClients = 8;
     this.onMessage("type", (client, message) => {
       //
       // handle "type" message
@@ -29,6 +31,14 @@ export class MyRoom extends Room<MyRoomState> {
         x: payload.x,
         y: payload.y
       });
+    });
+
+    //send leave message back to client so it can access it's own id
+    this.onMessage("i-joined", (client: Client, message: any) => {
+      client.send("your-id", client.sessionId)
+    });
+    this.onMessage("i-left", (client: Client, message: any) => {
+      this.broadcast("someone-left", client.sessionId)
     });
 
   }
@@ -59,6 +69,8 @@ export class MyRoom extends Room<MyRoomState> {
   onLeave (client: Client, consented: boolean) {
     console.log(client.sessionId, "left!");
 
+    //remove from playerEntities in bootScene
+    //playerEntities[client.sessionId] = null;
     this.state.players.delete(client.sessionId);
   }
 
