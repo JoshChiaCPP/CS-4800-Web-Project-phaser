@@ -7,13 +7,9 @@ import { Schema, MapSchema, type} from "@colyseus/schema";
 export class MainScene extends Phaser.Scene {
   private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
   fish!: Phaser.GameObjects.Image;
-  //room!: Room;
   client = new Client("ws://localhost:2567");
   joined = false;
   myId = "";
-
-
-  //playerEntities: {[sessionId: string]: any} = {};
   //local input cache
   inputPayload = {
     left: false,
@@ -68,14 +64,6 @@ export class MainScene extends Phaser.Scene {
         ease: 'Power1',
       });
     })
-
-    //check for pre-existing clients, just do this once
-    // Object.keys(playerEntities).forEach((sessionId: string) => {
-    //   console.log("detected ", sessionId);
-    //   const entity = this.add.image(width * 0.3, height * 0.55, "clownfish").setScale(3).setTint(0x00ff00);
-    //   playerEntities[sessionId] = entity;
-    // });
-
     //send server message that "I" joined to recieve my id in return
     room.send("i-joined", "");
     room.onMessage("your-id", (id) => {

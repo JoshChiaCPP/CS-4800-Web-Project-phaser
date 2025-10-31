@@ -30,11 +30,7 @@ export default class minigameRPS extends Phaser.Scene {
         super({key : 'rps'})
     }
     preload(){
-        // this.load.image('bg', 'assets/sky.png') //replace asset later
-        // this.load.spritesheet('kelp', 'assets/kelp.png', { frameWidth: 1000, frameHeight: 1000})
-        // this.load.spritesheet('claw', 'assets/claw.png', { frameWidth: 1000, frameHeight: 1000})
-        // this.load.spritesheet('coral', 'assets/coral.png', { frameWidth: 1000, frameHeight: 1000})
-        // this.load.image('cursor', 'assets/cursor.cur')d
+        //preload assets in bootscene for now
         
     }
     async create(){
@@ -167,18 +163,12 @@ export default class minigameRPS extends Phaser.Scene {
     private handleGlobalClick(): void {
         if (this.initialTime > 0){
             if (this.canClick) {
-            // The click is allowed
-            //console.log('Global click registered!');
-        
-            
             // Schedule the re-enabling of clicks after 0.4 seconds 
             this.time.delayedCall(400, () => {
                 this.canClick = true;
-                //console.log('Click cooldown finished.');
             }, [], this);
             } else {
-            // Cooldown is active
-            //console.log('Global click ignored (cooldown active)...');
+
             }
         }
         this.canClick = false;
@@ -224,7 +214,7 @@ export default class minigameRPS extends Phaser.Scene {
 
     update(){
         this.timerBar.updateBar(); //update bar fill amount
-        //dev scene reset, use shift to reset
+        //dev scene reset/movement keybinds, change as needed
         if (!this.cursors){
 			return
 		}
@@ -233,14 +223,7 @@ export default class minigameRPS extends Phaser.Scene {
             room.leave();
 		}
         if (this.cursors.space?.isDown){
-            //console.log('pressed space')
             this.scene.start("main")
-            // this.scene.restart()
-            // this.initialTime = 10
-            // this.canClick = true;
-            // this.selectedCard = "None"
-            // room.send("hi", {x: 10, y: 5});
-            // console.log('did it work?')
         }
         
 
